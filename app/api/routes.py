@@ -1,20 +1,35 @@
-from fastapi import APIRouter, HTTPException
-from app.schemas.text_analyzer import TextAnalysisRequest, TextAnalysisResponse
-from app.services.analyzer_service import analyze_text
+from fastapi import APIRouter
+
+from app.core.config import settings
+from app.schemas.text_analyzer import (
+    MAX_TEXT_LENGTH,
+    CompareRequest,
+    ComparisonResponse,
+    Example,
+    TextAnalysisRequest,
+    TextAnalysisResponse,
+)
+from app.services.analyzer_service import analyze_text, compare_texts
+from app.services.examples import EXAMPLES
 
 router = APIRouter()
 
-@router.post("/analyze", response_model=TextAnalysisResponse, summary="Analiza un texto proporcionado")
-async def process_text(request: TextAnalysisRequest):
-    """
-    Recibe un texto a través de un payload JSON y retorna un análisis estructurado.
-    
-    - **text**: Cadena de texto obligatoria (min_length=1).
-    """
-    try:
-        # Llama a la lógica de negocio desacoplada
-        analysis_result = analyze_text(request.text)
-        return TextAnalysisResponse(**analysis_result)
-    except Exception as e:
-        # Manejo de errores básicos
-        raise HTTPException(status_code=500, detail=f"Error procesando el texto: {str(e)}")
+
+@router.get("/health", tags=["System"])
+def health() -> dict:
+    return {"status": "ok", "version": settings.VERSION, "max_text_length": MAX_TEXT_LENGTH}
+
+
+@router.get("/examples", response_model=list[Example], tags=["Analysis"])
+def examples() -> list[dict]:
+    return EXAMPLES
+
+
+@router.post("/analyze", response_model=TextAnalysisResponse, tags=["Analysis"])
+def process_text(request: TextAnalysisRequest) -> dict:
+    return analyze_text(request.text)
+
+
+@router.post("/compare", response_model=ComparisonResponse, tags=["Analysis"])
+def compare(request: CompareRequest) -> dict:
+    return compare_texts(request.text_a, request.text_b)

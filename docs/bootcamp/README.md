@@ -95,19 +95,3 @@ A continuación, se presentan las capturas de pantalla del funcionamiento:
 ![Captura 1](./cap1.png)
 ![Captura 2](./cap2.png)
 ![Captura 3](./cap3.png)
-
-### Nuevas Funcionalidades (Frontend y Backend Extendido)
-
-El proyecto evolucionó para incluir una interfaz de usuario interactiva y nuevos endpoints. Aquí están las evidencias del funcionamiento actual:
-
-**Análisis de Texto (Léxico y Métricas)**  
-Se muestra la interfaz principal (`cap4`) procesando un texto. Muestra estadísticas instantáneas como el tiempo de lectura, diversidad léxica, cantidad de oraciones y el sentimiento heurístico.
-![Análisis de Texto](./cap4.png)
-
-**Comparación de Versiones**  
-La herramienta permite contrastar dos textos (`cap5`), evidenciando el vocabulario compartido, la diferencia en cantidad de palabras y la fluctuación en la longitud promedio de las oraciones.
-![Comparación de Textos](./cap5.png)
-
-**Historial Local**  
-El frontend gestiona un historial opt-in de hasta 20 análisis en el almacenamiento local del navegador (`cap6`), permitiendo revisar textos anteriores rápidamente.
-![Historial Local](./cap6.png)
